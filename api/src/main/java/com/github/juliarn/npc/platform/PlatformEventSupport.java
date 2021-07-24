@@ -22,6 +22,8 @@
  * THE SOFTWARE.
  */
 
-dependencies {
-  implementation group: 'net.kyori', name: 'adventure-api', version: '4.8.1'
+package com.github.juliarn.npc.platform;
+
+public interface PlatformEventSupport<P> {
+
 }

@@ -22,6 +22,19 @@
  * THE SOFTWARE.
  */
 
-dependencies {
-  implementation group: 'net.kyori', name: 'adventure-api', version: '4.8.1'
+package com.github.juliarn.npc.utility;
+
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+
+public interface Buildable<R, B extends Buildable.Builder<R>> {
+
+  @Contract(value = "-> new", pure = true)
+  @NotNull B asBuilder();
+
+  interface Builder<R> {
+
+    @Contract(value = "-> new", pure = true)
+    @NotNull R build();
+  }
 }

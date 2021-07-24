@@ -22,6 +22,41 @@
  * THE SOFTWARE.
  */
 
-dependencies {
-  implementation group: 'net.kyori', name: 'adventure-api', version: '4.8.1'
+package com.github.juliarn.npc.reflect;
+
+import com.github.juliarn.npc.reflect.utils.ReflectionUtils;
+import java.lang.reflect.Field;
+import java.util.function.Function;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+public final class FieldMemberAccessor extends AbstractMemberAccessor implements MemberAccessor {
+
+  private final Field field;
+  private final MockedClass holder;
+
+  public FieldMemberAccessor(Field field, MockedClass holder) {
+    super(field);
+
+    this.field = field;
+    this.holder = holder;
+  }
+
+  public <T> void set(@NotNull T newValue) {
+    this.set(newValue, Function.identity());
+  }
+
+  public <T, R> void set(@NotNull T newValue, @NotNull Function<T, R> mapper) {
+    ReflectionUtils.makeAccessible(this.field);
+    ReflectionUtils.setFieldValue(this.field, this.holder.instance, mapper.apply(newValue));
+  }
+
+  public @Nullable <T> T get() {
+    return this.get(Function.identity());
+  }
+
+  public @Nullable <T, R> R get(@NotNull Function<T, R> mapper) {
+    T value = ReflectionUtils.getFieldValue(this.field, this.holder.instance);
+    return mapper.apply(value);
+  }
 }

@@ -74,7 +74,11 @@ subprojects {
   }
 
   license {
-    header = project.rootProject.file('LICENSE-HEADER')
+    header = project.rootProject.file('LICENSE_HEADER')
+  }
+
+  checkstyle {
+    toolVersion = '8.44'
   }
 
   tasks {
@@ -87,6 +91,8 @@ subprojects {
     }
 
     withType(Checkstyle).configureEach {
+      maxErrors = 0
+      maxWarnings = 0
       configFile = project.rootProject.file('checkstyle.xml')
     }
   }

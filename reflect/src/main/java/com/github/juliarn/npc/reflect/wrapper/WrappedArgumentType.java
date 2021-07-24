@@ -22,6 +22,42 @@
  * THE SOFTWARE.
  */
 
-dependencies {
-  implementation group: 'net.kyori', name: 'adventure-api', version: '4.8.1'
+package com.github.juliarn.npc.reflect.wrapper;
+
+import java.util.Objects;
+import java.util.function.Function;
+import org.jetbrains.annotations.NotNull;
+
+public final class WrappedArgumentType<I, O> {
+
+  private final I inputType;
+  private final Function<I, O> mapper;
+
+  private WrappedArgumentType(@NotNull I inputType, @NotNull Function<I, O> mapper) {
+    this.inputType = Objects.requireNonNull(inputType, "inputType");
+    this.mapper = Objects.requireNonNull(mapper, "mapper");
+  }
+
+  public static @NotNull <I> WrappedArgumentType<I, I> passThrough(@NotNull I inputType) {
+    return new WrappedArgumentType<>(inputType, Function.identity());
+  }
+
+  public static @NotNull <I, O> WrappedArgumentType<I, O> of(
+      @NotNull I inputType,
+      @NotNull Function<I, O> mapper
+  ) {
+    return new WrappedArgumentType<>(inputType, mapper);
+  }
+
+  public @NotNull I inputType() {
+    return this.inputType;
+  }
+
+  public @NotNull Function<I, O> mapper() {
+    return this.mapper;
+  }
+
+  public @NotNull O map() {
+    return this.mapper.apply(this.inputType);
+  }
 }

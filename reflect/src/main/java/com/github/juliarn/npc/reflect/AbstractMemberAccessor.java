@@ -22,6 +22,31 @@
  * THE SOFTWARE.
  */
 
-dependencies {
-  implementation group: 'net.kyori', name: 'adventure-api', version: '4.8.1'
+package com.github.juliarn.npc.reflect;
+
+import java.lang.reflect.Member;
+import org.jetbrains.annotations.NotNull;
+
+public abstract class AbstractMemberAccessor implements MemberAccessor {
+
+  private final Member member;
+
+  protected AbstractMemberAccessor(Member member) {
+    this.member = member;
+  }
+
+  @Override
+  public @NotNull String name() {
+    return this.member.getName();
+  }
+
+  @Override
+  public int modifiers() {
+    return this.member.getModifiers();
+  }
+
+  @Override
+  public boolean introducedByCompiler() {
+    return this.member.isSynthetic();
+  }
 }

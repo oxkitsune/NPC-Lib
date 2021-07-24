@@ -22,6 +22,9 @@
  * THE SOFTWARE.
  */
 
-dependencies {
-  implementation group: 'net.kyori', name: 'adventure-api', version: '4.8.1'
+package com.github.juliarn.npc.reflect;
+
+public interface ClassMocker {
+
+
 }
