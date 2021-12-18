@@ -8,6 +8,7 @@ import com.github.juliarn.npc.modifier.AnimationModifier;
 import com.github.juliarn.npc.modifier.EquipmentModifier;
 import com.github.juliarn.npc.modifier.LabyModModifier;
 import com.github.juliarn.npc.modifier.MetadataModifier;
+import com.github.juliarn.npc.modifier.MovementModifier;
 import com.github.juliarn.npc.modifier.RotationModifier;
 import com.github.juliarn.npc.modifier.VisibilityModifier;
 import com.github.juliarn.npc.profile.Profile;
@@ -38,7 +39,7 @@ public class NPC {
   private final boolean usePlayerProfiles;
 
   private final Profile profile;
-  private final Location location;
+  private Location location;
   private final WrappedGameProfile gameProfile;
   private final SpawnCustomizer spawnCustomizer;
 
@@ -291,6 +292,17 @@ public class NPC {
   }
 
   /**
+   * Creates a new {@link MovementModifier} which serves methods to move this NPC around.
+   *
+   * @return a movement modifier modifying this NPC
+   * @since 2.8-SNAPSHOT
+   */
+  @NotNull
+  public MovementModifier movement() {
+    return new MovementModifier(this);
+  }
+
+  /**
    * Get the protocol lib profile wrapper for this npc. To use this method {@code ProtocolLib} is
    * needed as a dependency of your project. If you don't want to do that, use {@link #getProfile()}
    * instead.
@@ -331,6 +343,10 @@ public class NPC {
   @NotNull
   public Location getLocation() {
     return this.location;
+  }
+
+  public void setLocation(@NotNull Location location) {
+    this.location = location;
   }
 
   /**
